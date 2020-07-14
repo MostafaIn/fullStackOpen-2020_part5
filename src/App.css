@@ -38,7 +38,7 @@
 }
 
 .notification{
-  max-width: 350px;
+  max-width: 60%;
   background: lightgray;
   padding:1rem;
   margin: 1rem;
@@ -50,4 +50,8 @@
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
+}
+.error{
+  color: darkred;
+  border: 2px solid red;
 }

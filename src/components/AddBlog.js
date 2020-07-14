@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const AddBlog = ({setBlogs, blogs}) => {
+const AddBlog = ({setBlogs, blogs, setMessage}) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] =useState('')
@@ -9,16 +9,22 @@ const AddBlog = ({setBlogs, blogs}) => {
     const handleAddBlog = async (e) => {
         e.preventDefault()
     
-         const newBlog = {
-           title: title,
-           author: author,
-           url: url
-         }
-        await blogService.createBlog(newBlog)
-        await setBlogs([...blogs, newBlog])
-        setTitle('')
-        setAuthor('')
-        setUrl('')
+        try {
+            const newBlog = {
+                title: title,
+                author: author,
+                url: url
+              }
+             await blogService.createBlog(newBlog)
+             await setBlogs([...blogs, newBlog])
+             setMessage({msg:`a new blog ${title} by ${author} added!`, err: false})
+             setTitle('')
+             setAuthor('')
+             setUrl('')
+            } catch (error) {
+                setMessage({msg:'Please Enter new blog values!', err: true})
+            }
+            setTimeout(() => setMessage({msg:'', err: false}), 5000);
       }
 
     return (

@@ -6,11 +6,13 @@ import Notification from './Notification'
 const LoginForm = ({setUser}) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [errMsg, setErrMsg] = useState(null)
+    const [message, setMessage] = useState({msg:'', err: false})
+
     
 
     const handleLogin = async (e) => {
         e.preventDefault()
+
         try {
           const user = await loginServices.login({
             username, password
@@ -24,15 +26,20 @@ const LoginForm = ({setUser}) => {
           setUsername('')
           setPassword('')
         } catch (err) {
-          setErrMsg('Wrong credentials!')
-          setTimeout(() => setErrMsg(null), 5000)
+            if(!username && !password){
+                setMessage({msg:'Please Enter username and password!', err: true})
+            }else{
+                setMessage({msg:'wrong username or password!', err: true})
+            }
         }
-      }
+
+        setTimeout(() => setMessage({msg:'', err:false}), 5000)
+    }
 
     return (
         <form onSubmit={handleLogin}>
         <h2>log in to application</h2>
-        <Notification message={errMsg} />
+        <Notification message={message} />
           <div>
             username
             <input 
