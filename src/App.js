@@ -8,16 +8,16 @@ import Blogs from './components/Blogs'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs.sort((a,b) => b.likes - a.likes) )
-    )  
+    )
 
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if(loggedUserJSON){
       const user = JSON.parse(loggedUserJSON)
-      
+
       setUser(user)
       blogService.setToken(user.token)
 
@@ -30,7 +30,7 @@ const App = () => {
     <div>
       {(user === null)
         ?
-        <LoginForm 
+        <LoginForm
           setUser={setUser}
         />
         :

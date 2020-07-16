@@ -39,9 +39,9 @@ const deleteBlog = async (blog) => {
 }
 
 
-export default { 
-  setToken, 
-  getAll, 
+export default {
+  setToken,
+  getAll,
   createBlog,
   updateBlog,
   deleteBlog
