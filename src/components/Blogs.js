@@ -32,6 +32,13 @@ const Blogs = ({setUser, user, setBlogs, blogs}) => {
         await setBlogs(blogs.map( blog => blog.id === currBlog.id ? updated : blog))
        }
 
+    const handleDelete = async (targetBlog) => {
+        if(window.confirm(`Remove blog ${targetBlog.title} by ${targetBlog.author}!`)){
+            await blogService.deleteBlog(targetBlog)
+            await setBlogs(blogs.filter( blog => blog.id !== targetBlog.id)) 
+        }
+    }
+
     return (
         <div>
            <h2>blogs</h2>
@@ -43,7 +50,13 @@ const Blogs = ({setUser, user, setBlogs, blogs}) => {
             />
             </Togglable>
             {blogs.map(blog =>
-                <Blog key={blog.id} blog={blog} handleLike={handleLike} />
+                <Blog 
+                    key={blog.id} 
+                    blog={blog} 
+                    handleLike={handleLike} 
+                    user={user}
+                    handleDelete={handleDelete}
+                />
             )} 
         </div>
     )
