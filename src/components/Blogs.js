@@ -1,4 +1,5 @@
 import React,{ useState, useRef } from 'react'
+import PropTypes from 'prop-types'
 import AddBlog from './AddBlog'
 import Blog from './Blog'
 import Notification from './Notification'
@@ -60,6 +61,13 @@ const Blogs = ({setUser, user, setBlogs, blogs}) => {
             )} 
         </div>
     )
+}
+
+Blogs.propTypes = {
+    setUser: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    setBlogs: PropTypes.func.isRequired,
+    blogs: PropTypes.array.isRequired
 }
 
 export default Blogs
