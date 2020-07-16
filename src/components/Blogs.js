@@ -27,6 +27,11 @@ const Blogs = ({setUser, user, setBlogs, blogs}) => {
         setTimeout(() => setMessage({msg:'', err: false}), 5000);
     }
 
+    const handleLike = async (currBlog) => {
+        const updated =  await blogService.updateBlog(currBlog)
+        await setBlogs(blogs.map( blog => blog.id === currBlog.id ? updated : blog))
+       }
+
     return (
         <div>
            <h2>blogs</h2>
@@ -38,7 +43,7 @@ const Blogs = ({setUser, user, setBlogs, blogs}) => {
             />
             </Togglable>
             {blogs.map(blog =>
-                <Blog key={blog.id} blog={blog} />
+                <Blog key={blog.id} blog={blog} handleLike={handleLike} />
             )} 
         </div>
     )
