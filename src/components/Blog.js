@@ -24,9 +24,8 @@ const Blog = ({ blog, handleLike, user, handleDelete }) => {
         {blog.title} {blog.author}
         <button onClick={toggleVisibility}> {!visible ? 'view' : 'hide'} </button>
       </div>
-      <div className="blog-details">
-        {visible &&
-          <div>
+      {visible &&
+          <div className="blog-details">
             <p>{blog.url}</p>
             <p>{blog.likes} <button onClick={() => handleLike(blog)}>like</button></p>
             <p>{blog.author}</p>
@@ -34,8 +33,7 @@ const Blog = ({ blog, handleLike, user, handleDelete }) => {
             <button style={{ color:'red' }} onClick={() => handleDelete(blog)}>remove</button>
             }
           </div>
-        }
-      </div>
+      }
     </div>
   )
 }
