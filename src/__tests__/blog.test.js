@@ -5,6 +5,7 @@ import Blog from '../components/Blog'
 
 describe('displaying a blog renders', () => {
   let component
+  let mockLikeHandler
   const blog = {
     'likes': 127,
     'user': {
@@ -24,8 +25,10 @@ describe('displaying a blog renders', () => {
   }
 
   beforeEach(() => {
+    mockLikeHandler = jest.fn()
+
     component = render(
-      <Blog blog={blog} user={user} />
+      <Blog blog={blog} user={user} handleLike={mockLikeHandler} />
     )
   })
 
@@ -50,5 +53,16 @@ describe('displaying a blog renders', () => {
 
     const likes = urlElement.nextSibling
     expect(likes).toHaveTextContent(127)
+  })
+
+  test('if the like button is clicked twice',() => {
+    const button = component.getByText('view')
+    fireEvent.click(button)
+
+    const likeBtn = component.getByText('like')
+    fireEvent.click(likeBtn)
+    fireEvent.click(likeBtn)
+
+    expect(mockLikeHandler.mock.calls).toHaveLength(2)
   })
 })
