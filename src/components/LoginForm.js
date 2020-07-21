@@ -45,6 +45,7 @@ const LoginForm = ({ setUser }) => {
         <input
           type="text"
           value={username}
+          id="username"
           name="Username"
           onChange={ ({ target }) => setUsername(target.value) }
         />
@@ -54,6 +55,7 @@ const LoginForm = ({ setUser }) => {
         <input
           type="password"
           value={password}
+          id="password"
           name="password"
           onChange={ ({ target }) => setPassword(target.value) }
         />
