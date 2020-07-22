@@ -73,6 +73,19 @@ describe('Blog App', function() {
 
         cy.contains('like').parent().should('contain', 1)
       })
+
+      it('the user who created a blog can delete it.', function () {
+        cy.get('.blog-title').should('have.length', 2)
+
+        cy.contains('Test your code').parent().find('button').click()
+        cy.get('.blog-details').within( () => {
+          cy.get('button').then( buttons => {
+            cy.wrap(buttons[1]).click()
+          })
+        })
+
+        cy.get('.blog-title').should('not.contain', 'Test your code, not your patience.')
+      })
     })
   })
 })
