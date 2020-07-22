@@ -52,5 +52,27 @@ describe('Blog App', function() {
       cy.contains('Fast, easy and reliable testing for anything that runs in a browser.')
       cy.contains('cypress')
     })
+
+    describe('and a blog exists', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title:'End-to-end Testing Mobile Apps with Ionic and Cypress.',
+          author:'Cecelia Martinez',
+          url:'www.cypress.io/blog/'
+        })
+        cy.createBlog({
+          title:'Test your code, not your patience.',
+          author:'Cypress',
+          url:'https://www.cypress.io'
+        })
+      })
+
+      it('user can like a blog', function () {
+        cy.contains('Martinez').parent().find('button').click()
+        cy.contains('like').click()
+
+        cy.contains('like').parent().should('contain', 1)
+      })
+    })
   })
 })
