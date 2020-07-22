@@ -36,4 +36,21 @@ describe('Blog App', function() {
 
     })
   })
+
+  describe.only('When logged in', function() {
+    beforeEach(function() {
+      cy.login({ username:'MosHaz', password: '123456' })
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('new blog').click()
+      cy.get('#title').type('Fast, easy and reliable testing for anything that runs in a browser.')
+      cy.get('#author').type('cypress')
+      cy.get('#url').type('www.cypress.io')
+      cy.get('button[type=submit]').click()
+
+      cy.contains('Fast, easy and reliable testing for anything that runs in a browser.')
+      cy.contains('cypress')
+    })
+  })
 })
