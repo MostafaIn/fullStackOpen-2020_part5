@@ -37,7 +37,7 @@ describe('Blog App', function() {
     })
   })
 
-  describe.only('When logged in', function() {
+  describe('When logged in', function() {
     beforeEach(function() {
       cy.login({ username:'MosHaz', password: '123456' })
     })
@@ -58,24 +58,45 @@ describe('Blog App', function() {
         cy.createBlog({
           title:'End-to-end Testing Mobile Apps with Ionic and Cypress.',
           author:'Cecelia Martinez',
-          url:'www.cypress.io/blog/'
+          url:'www.cypress.io/blog/',
+          likes: 10
         })
         cy.createBlog({
           title:'Test your code, not your patience.',
           author:'Cypress',
-          url:'https://www.cypress.io'
+          url:'https://www.cypress.io',
+          likes: 15
         })
+        cy.createBlog({
+          title:'When Can The Test Log Out?',
+          author:'Gleb Bahmutov',
+          url:'https://www.cypress.io',
+          likes: 25
+        })
+        cy.createBlog({
+          title:'Live Webcast | Build invincible integration tests using Cypress and cypress-testing-library',
+          author:'The Cypress Team',
+          url:'https://www.cypress.io',
+          likes: 5
+        })
+        cy.createBlog({
+          title:'Experimental Fetch Polyfill',
+          author:'Gleb Bahmutov',
+          url:'https://www.cypress.io',
+          likes: 20
+        })
+
       })
 
       it('user can like a blog', function () {
         cy.contains('Martinez').parent().find('button').click()
         cy.contains('like').click()
 
-        cy.contains('like').parent().should('contain', 1)
+        cy.contains('like').parent().should('contain', 11)
       })
 
       it('the user who created a blog can delete it.', function () {
-        cy.get('.blog-title').should('have.length', 2)
+        cy.get('.blog-title').should('have.length', 5)
 
         cy.contains('Test your code').parent().find('button').click()
         cy.get('.blog-details').within( () => {
@@ -85,6 +106,22 @@ describe('Blog App', function() {
         })
 
         cy.get('.blog-title').should('not.contain', 'Test your code, not your patience.')
+      })
+
+      it('blogs are ordered according to likes with the blog with the most likes being first.', function () {
+        cy.get('.blog-title').then( blogs => {
+          for(let blog of blogs){
+            cy.get(blog).parent().find('button').click()
+
+          }
+        })
+        cy.get('.blog-details').then( blogs => {
+          cy.wrap(blogs[0]).should('contain', 25)
+          cy.wrap(blogs[1]).should('contain', 20)
+          cy.wrap(blogs[2]).should('contain', 15)
+          cy.wrap(blogs[3]).should('contain', 10)
+          cy.wrap(blogs[4]).should('contain', 5)
+        })
       })
     })
   })
